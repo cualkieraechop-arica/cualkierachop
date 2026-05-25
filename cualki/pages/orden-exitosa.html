@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¡Pago exitoso! — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+  </nav>
+
+  <div style="padding-top:var(--nav-h);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+    <div style="max-width:500px;width:100%;text-align:center;">
+      <div style="width:80px;height:80px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin:0 auto 1.5rem;">✓</div>
+      <h1 style="font-family:var(--font-display);font-size:clamp(2.5rem,6vw,4rem);margin-bottom:0.5rem;color:var(--accent);">¡Pago exitoso!</h1>
+      <p style="color:var(--text-muted);margin-bottom:1.5rem;font-size:1rem;">Tu pedido fue confirmado y estamos preparando tu despacho.</p>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:2rem;text-align:left;">
+        <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.5rem;">Número de orden</div>
+        <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--accent);" id="numeroOrden">—</div>
+        <div style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted);line-height:1.7;">
+          ✅ Recibirás un email de confirmación<br/>
+          📦 Te contactaremos para coordinar el despacho por Blue Express<br/>
+          💬 ¿Dudas? Escríbenos por WhatsApp
+        </div>
+      </div>
+
+      <a href="https://wa.me/56994712263" target="_blank" class="btn-primary btn-wa" style="display:inline-flex;margin-bottom:1rem;">
+        💬 Contactar por WhatsApp
+      </a>
+      <br/>
+      <a href="catalogo.html" style="font-size:0.85rem;color:var(--text-muted);border-bottom:1px solid var(--text-dim);padding-bottom:1px;">
+        Seguir comprando
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const orden = params.get('orden') || sessionStorage.getItem('ultimaOrden') || '—';
+    document.getElementById('numeroOrden').textContent = orden;
+    sessionStorage.removeItem('canasta');
+    sessionStorage.removeItem('ultimaOrden');
+  </script>
+</body>
+</html>

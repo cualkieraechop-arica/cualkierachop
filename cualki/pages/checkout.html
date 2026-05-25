@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagar — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html">← Volver al catálogo</a>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+
+  <div style="padding-top:var(--nav-h);display:grid;grid-template-columns:1fr 1fr;min-height:100vh;">
+
+    <!-- RESUMEN -->
+    <div style="background:var(--surface);border-right:1px solid var(--border);padding:3rem clamp(1.5rem,4vw,3rem);overflow-y:auto;">
+      <div style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:1.5rem;">Tu pedido</div>
+      <div id="resumenProductos"></div>
+
+      <!-- ENVÍO -->
+      <div style="margin-top:1.5rem;padding:1.2rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);">
+        <div style="font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:0.8rem;">Tipo de envío (Por Pagar al recibir)</div>
+        <label style="display:flex;align-items:center;gap:0.8rem;padding:0.7rem;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;margin-bottom:0.5rem;transition:border-color 0.15s;" id="lblS">
+          <input type="radio" name="envio" value="S" onclick="setEnvio('S')" style="accent-color:var(--accent);" />
+          <div>
+            <div style="font-weight:500;font-size:0.9rem;">📦 Sobre S</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);">$3.990 por pagar · Hasta 1 kg</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.8rem;padding:0.7rem;border:1.5px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:border-color 0.15s;" id="lblM">
+          <input type="radio" name="envio" value="M" onclick="setEnvio('M')" style="accent-color:var(--accent);" />
+          <div>
+            <div style="font-weight:500;font-size:0.9rem;">📦 Sobre M</div>
+            <div style="font-size:0.78rem;color:var(--text-muted);">$5.990 por pagar · Hasta 3 kg</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- TOTALES -->
+      <div style="margin-top:1.5rem;padding:1.2rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);">
+        <div style="display:flex;justify-content:space-between;font-size:0.88rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          <span>Subtotal</span><span id="resSubtotal">$0</span>
+        </div>
+        <div id="filaDescuento" style="display:none;justify-content:space-between;font-size:0.88rem;color:#7FD422;margin-bottom:0.5rem;">
+          <span>🔥 Descuento 25%</span><span id="resDescuento">-$0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:0.8rem;border-top:1px solid var(--border);">
+          <span style="font-size:0.8rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);">Total productos</span>
+          <span style="font-family:var(--font-display);font-size:2rem;color:var(--accent);" id="resTotal">$0</span>
+        </div>
+        <div style="font-size:0.72rem;color:var(--text-dim);margin-top:0.3rem;text-align:right;">+ envío por pagar al recibir</div>
+      </div>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div style="padding:3rem clamp(1.5rem,4vw,3rem);overflow-y:auto;">
+      <span class="section-label">Datos de contacto</span>
+      <h1 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);margin-bottom:0.5rem;">Finalizar compra</h1>
+      <p style="color:var(--text-muted);margin-bottom:2rem;font-size:0.9rem;">Completa tus datos y paga con Mercado Pago.</p>
+
+      <div id="formContainer">
+        <div class="form-group">
+          <label>Nombre completo *</label>
+          <input type="text" id="nombre" placeholder="Ej: María González" />
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="email" placeholder="tu@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Teléfono / WhatsApp *</label>
+          <input type="tel" id="telefono" placeholder="+56 9 1234 5678" />
+        </div>
+        <div class="form-group">
+          <label>Ciudad *</label>
+          <input type="text" id="ciudad" placeholder="Ej: Santiago" />
+        </div>
+        <div class="form-group">
+          <label>Notas adicionales</label>
+          <textarea id="notas" rows="2" placeholder="¿Alguna consulta o aclaración?"></textarea>
+        </div>
+
+        <div style="background:var(--accent-dim);border:1px solid rgba(127,212,34,0.2);border-radius:var(--radius-lg);padding:1rem;font-size:0.82rem;line-height:1.7;margin-bottom:1.5rem;color:var(--text-muted);">
+          <strong style="color:var(--accent);">¿Cómo funciona?</strong><br/>
+          1. Completa tus datos → 2. Paga con Mercado Pago → 3. Te enviamos tu número de orden → 4. Coordinamos el despacho por Blue Express
+        </div>
+
+        <button class="btn-primary btn-full" id="btnPagar" onclick="irAPagar()" style="font-size:1rem;padding:1rem;">
+          🔒 Pagar con Mercado Pago →
+        </button>
+        <p style="font-size:0.72rem;color:var(--text-dim);text-align:center;margin-top:0.6rem;">Pago 100% seguro · Tarjeta, débito o transferencia</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/sheets.js"></script>
+  <script src="../js/canasta.js"></script>
+  <script>
+    const DESCUENTO_MIN = 20000;
+    const DESCUENTO_PCT = 0.25;
+    let envioSeleccionado = '';
+
+    function initCheckout() {
+      const canasta = JSON.parse(sessionStorage.getItem('canasta') || '[]');
+      if (canasta.length === 0) { window.location.href = 'catalogo.html'; return; }
+
+      const subtotal = canasta.reduce((s, p) => s + p.precio, 0);
+      const descuento = subtotal >= DESCUENTO_MIN ? Math.round(subtotal * DESCUENTO_PCT) : 0;
+      const total = subtotal - descuento;
+
+      // Resumen productos
+      const resumen = document.getElementById('resumenProductos');
+      resumen.innerHTML = canasta.map(p => `
+        <div style="display:flex;gap:1rem;align-items:center;padding:0.8rem 0;border-bottom:1px solid var(--border);">
+          ${p.imagen ? `<img src="${p.imagen}" style="width:55px;height:55px;object-fit:cover;border-radius:4px;flex-shrink:0;" />` : '<div style="width:55px;height:55px;background:var(--surface2);border-radius:4px;display:flex;align-items:center;justify-content:center;">👟</div>'}
+          <div style="flex:1;">
+            <div style="font-size:0.65rem;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;">${p.marca}</div>
+            <div style="font-size:0.85rem;font-weight:500;">${p.modelo}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">T${p.talla} · ${labelPie(p.pie)}</div>
+          </div>
+          <div style="font-family:var(--font-display);font-size:1.1rem;color:var(--accent);">${formatPrecio(p.precio)}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('resSubtotal').textContent = formatPrecio(subtotal);
+      document.getElementById('resTotal').textContent = formatPrecio(total);
+
+      if (descuento > 0) {
+        document.getElementById('filaDescuento').style.display = 'flex';
+        document.getElementById('resDescuento').textContent = '- ' + formatPrecio(descuento);
+      }
+    }
+
+    function setEnvio(tipo) {
+      envioSeleccionado = tipo;
+      document.getElementById('lblS').style.borderColor = tipo === 'S' ? 'var(--accent)' : 'var(--border)';
+      document.getElementById('lblM').style.borderColor = tipo === 'M' ? 'var(--accent)' : 'var(--border)';
+    }
+
+    async function irAPagar() {
+      const nombre   = document.getElementById('nombre').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const ciudad   = document.getElementById('ciudad').value.trim();
+      const notas    = document.getElementById('notas').value.trim();
+
+      if (!nombre || !email || !telefono || !ciudad) {
+        alert('Por favor completa todos los campos obligatorios.');
+        return;
+      }
+      if (!envioSeleccionado) {
+        alert('Por favor selecciona el tipo de envío.');
+        return;
+      }
+
+      const btn = document.getElementById('btnPagar');
+      btn.textContent = 'Preparando pago...';
+      btn.disabled = true;
+
+      const canasta = JSON.parse(sessionStorage.getItem('canasta') || '[]');
+      const subtotal = canasta.reduce((s, p) => s + p.precio, 0);
+      const descuento = subtotal >= DESCUENTO_MIN ? Math.round(subtotal * DESCUENTO_PCT) : 0;
+      const total = subtotal - descuento;
+      const numeroOrden = 'ORD-' + Date.now().toString(36).toUpperCase();
+      const costoEnvio = envioSeleccionado === 'S' ? 3990 : 5990;
+
+      const productosConDescuento = canasta.map(p => ({
+        ...p,
+        precioFinal: Math.round(p.precio * (1 - (descuento > 0 ? DESCUENTO_PCT : 0))),
+      }));
+
+      const datos = {
+        accion: 'crear_preferencia_mp',
+        numero_orden: numeroOrden,
+        nombre, email, telefono, ciudad, notas,
+        envio: `Sobre ${envioSeleccionado} Blue Express`,
+        talla_envio: envioSeleccionado,
+        costo_envio: costoEnvio,
+        subtotal, descuento, total,
+        productos: productosConDescuento,
+        productos_resumen: canasta.map(p => `${p.marca} ${p.modelo} T${p.talla}`).join(' | '),
+        fecha: new Date().toLocaleDateString('es-CL'),
+        url_base: window.location.origin,
+      };
+
+      try {
+        const resp = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos),
+        });
+        const result = await resp.json();
+
+        if (result.status === 'ok' && result.init_point) {
+          // Guardar orden en Sheet
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...datos, accion: 'nuevo_pedido' }),
+          });
+          sessionStorage.setItem('ultimaOrden', numeroOrden);
+          window.location.href = result.init_point;
+        } else {
+          throw new Error('No se pudo crear la preferencia de pago');
+        }
+      } catch (err) {
+        alert('Error al conectar con Mercado Pago. Intenta de nuevo o contáctanos por WhatsApp.');
+        btn.textContent = '🔒 Pagar con Mercado Pago →';
+        btn.disabled = false;
+      }
+    }
+
+    initCheckout();
+  </script>
+
+  <style>
+    @media(max-width:900px) {
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</body>
+</html>

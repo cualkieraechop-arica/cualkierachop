@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catálogo — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* FILTROS BOTONERA */
+    .filtros-wrap {
+      max-width: 1200px;
+      margin: 0 auto 1.5rem;
+      padding: 0 clamp(1rem,3vw,2.5rem);
+    }
+    .filtros-fila1 {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .btn-pie {
+      flex: 1;
+      background: #1e1e1e;
+      color: #aaa;
+      border: 1.5px solid #2a2a2a;
+      border-radius: 100px;
+      padding: 9px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+    .btn-pie.activo {
+      background: #7FD422;
+      color: #111;
+      border-color: #7FD422;
+    }
+    .btn-pie:hover:not(.activo) {
+      border-color: #7FD422;
+      color: #f0f0ec;
+    }
+    .filtros-fila2 {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .sel-filtro {
+      flex: 1;
+      background: #1e1e1e;
+      color: #aaa;
+      border: 1.5px solid #2a2a2a;
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      appearance: none;
+      outline: none;
+      font-family: var(--font-body);
+      text-align: center;
+    }
+    .sel-filtro:focus { border-color: #7FD422; }
+    .btn-limpiar {
+      background: none;
+      color: #555;
+      border: 1.5px solid #2a2a2a;
+      border-radius: 100px;
+      padding: 8px 14px;
+      font-size: 11px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: var(--font-body);
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+    .btn-limpiar:hover { color: #ff4747; border-color: #ff4747; }
+    .catalogo-topbar2 {
+      max-width: 1200px;
+      margin: 0 auto 1rem;
+      padding: 0 clamp(1rem,3vw,2.5rem);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .catalogo-title2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem,4vw,3rem);
+    }
+    .total-productos {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .productos-grid2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--border);
+      border: 1px solid var(--border);
+      padding: 0 clamp(1rem,3vw,2.5rem);
+      background: transparent;
+      border: none;
+      padding: clamp(1rem,3vw,2.5rem);
+      gap: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html" class="active">Catálogo</a>
+      <a href="nosotros.html">Quiénes Somos</a>
+      <a href="faq.html">Preguntas</a>
+      <a href="comentarios.html">Comentarios</a>
+      <a href="catalogo.html" class="btn-nav">Ver productos</a>
+      <button class="canasta-btn" onclick="abrirCanasta()" title="Mi canasta">🛒 <span class="canasta-contador">0</span></button>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="catalogo.html" onclick="toggleMenu()">Catálogo</a>
+    <a href="nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+    <a href="faq.html" onclick="toggleMenu()">Preguntas</a>
+    <a href="comentarios.html" onclick="toggleMenu()">Comentarios</a>
+  </div>
+
+  <!-- CANASTA PANEL -->
+  <div class="canasta-overlay" id="canastaOverlay" onclick="cerrarCanasta()"></div>
+  <div class="canasta-panel" id="canastaPanel">
+    <div class="canasta-header">
+      <h3>🛒 Mi Canasta</h3>
+      <button class="canasta-cerrar" onclick="cerrarCanasta()">✕</button>
+    </div>
+    <div class="canasta-lista" id="canastaLista"></div>
+    <div id="mensajeDescuento" style="display:none;padding:0.7rem 1.5rem;font-size:0.8rem;text-align:center;border-top:1px solid var(--border);line-height:1.5;"></div>
+    <div class="canasta-footer">
+      <div id="canastaDescuentoRow" style="display:none;justify-content:space-between;font-size:0.82rem;color:#7FD422;margin-bottom:0.4rem;padding-bottom:0.4rem;border-bottom:1px dashed var(--border);">
+        <span>🔥 Descuento Mayo 25%</span>
+        <span class="descuento-valor" style="color:#ff4747;font-weight:600;">-$0</span>
+      </div>
+      <div class="canasta-total-row">
+        <span class="canasta-total-label">Total</span>
+        <span class="canasta-total-precio" id="canastaTotal">$0</span>
+      </div>
+      <button onclick="irACheckout()" style="width:100%;background:#7FD422;color:#111;border:none;border-radius:4px;padding:0.9rem;font-size:0.95rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:var(--font-body);margin-bottom:0.5rem;">
+        🔒 Pagar con Mercado Pago →
+      </button>
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:0.7rem;color:var(--text-dim);">O</span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+      <button onclick="consultarPorWhatsApp()" style="width:100%;background:#25D366;color:white;border:none;border-radius:4px;padding:0.75rem;font-size:0.88rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-family:var(--font-body);margin-bottom:0.5rem;">
+        💬 Consultar por WhatsApp
+      </button>
+      <button onclick="limpiarCanasta()" style="width:100%;background:none;border:1px solid var(--border);color:var(--text-muted);padding:0.5rem;border-radius:4px;font-size:0.78rem;cursor:pointer;font-family:var(--font-body);">
+        🗑️ Vaciar canasta
+      </button>
+    </div>
+  </div>
+
+  <div style="padding-top: var(--nav-h);">
+  <!-- BANNER OFERTA -->
+  <div class="banner-oferta">
+    <div class="banner-oferta-inner">
+      <span class="banner-oferta-tag">⚡ MAYO 2026</span>
+      <span class="banner-oferta-texto">
+        🔥 <strong>25% OFF</strong> en compras sobre <strong>$20.000</strong> — ¡Solo este mes!
+      </span>
+      <span class="banner-oferta-small">Descuento se aplica automático en tu canasta · No acumulable con otras promociones</span>
+    </div>
+  </div>
+
+
+
+    <!-- TOPBAR -->
+    <div class="catalogo-topbar2">
+      <h1 class="catalogo-title2">Catálogo</h1>
+      <span class="total-productos" id="totalProductos">— productos</span>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filtros-wrap">
+      <!-- Fila 1: pie -->
+      <div class="filtros-fila1">
+        <button class="btn-pie activo" onclick="setPie('todos', this)">TODAS</button>
+        <button class="btn-pie" onclick="setPie('izq', this)">👈 IZQUIERDA</button>
+        <button class="btn-pie" onclick="setPie('der', this)">👉 DERECHA</button>
+      </div>
+      <!-- Fila 2: talla + estado -->
+      <div class="filtros-fila2">
+        <select id="selTalla" class="sel-filtro" onchange="setTalla()">
+          <option value="">TALLA ▾</option>
+        </select>
+        <select id="selEstado" class="sel-filtro" onchange="setEstado()">
+          <option value="">ESTADO ▾</option>
+          <option value="nueva">✨ Nueva</option>
+          <option value="usado">🔄 Usada</option>
+        </select>
+        <button class="btn-limpiar" onclick="limpiarFiltros()">✕ Limpiar</button>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="productos-grid" id="productosGrid" style="max-width:1200px;margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem) 4rem;">
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+    </div>
+
+    <div class="empty-state hidden" id="emptyState">
+      <p>😔 No hay productos con esos filtros.</p>
+      <button onclick="limpiarFiltros()" class="btn-primary">Limpiar filtros</button>
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <button class="modal-close" onclick="cerrarModal()">✕</button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- CANASTA FLOTANTE -->
+  <button class="canasta-flotante" id="canastaFlotante" onclick="abrirCanasta()" style="display:none;">
+    🛒 Canasta
+    <span class="canasta-flotante-badge" id="canastaBadge">0</span>
+  </button>
+
+  <script src="../js/sheets.js"></script>
+  <script src="../js/canasta.js"></script>
+  <script src="../js/catalogo.js"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comentarios — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .comentarios-wrap { max-width: 1000px; margin: 0 auto; padding: clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,3rem); }
+    .comentarios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-bottom: 4rem; }
+    .comentario-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .comentario-card:hover { border-color: var(--accent); }
+    .comentario-estrellas { color: var(--accent); font-size: 1rem; margin-bottom: 0.8rem; letter-spacing: 2px; }
+    .comentario-texto { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.2rem; font-style: italic; }
+    .comentario-autor { display: flex; align-items: center; gap: 0.8rem; }
+    .comentario-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent2); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1rem; flex-shrink: 0;
+    }
+    .comentario-nombre { font-weight: 500; font-size: 0.88rem; }
+    .comentario-ciudad { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* FORMULARIO */
+    .form-comentario {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .estrellas-selector { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .estrella-btn {
+      font-size: 1.8rem; background: none; border: none;
+      cursor: pointer; opacity: 0.3; transition: opacity 0.15s, transform 0.15s;
+    }
+    .estrella-btn.activa { opacity: 1; transform: scale(1.1); }
+    .form-success { text-align: center; padding: 2rem; display: none; }
+    .form-success .success-icon { width: 60px; height: 60px; background: var(--success); color: var(--bg); border-radius: 50%; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="nosotros.html">Quiénes Somos</a>
+      <a href="faq.html">Preguntas</a>
+      <a href="comentarios.html" class="active">Comentarios</a>
+      <a href="catalogo.html" class="btn-nav">Ver productos</a>
+      <button class="canasta-btn" onclick="abrirCanasta()" title="Mi canasta">🛒 <span class="canasta-contador">0</span></button>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="catalogo.html" onclick="toggleMenu()">Catálogo</a>
+    <a href="nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+    <a href="faq.html" onclick="toggleMenu()">Preguntas</a>
+    <a href="comentarios.html" onclick="toggleMenu()">Comentarios</a>
+  </div>
+
+  <div style="padding-top:var(--nav-h);">
+    <div class="comentarios-wrap">
+
+      <span class="section-label">Lo que dicen nuestros clientes</span>
+      <h1 style="font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);line-height:1;margin-bottom:0.5rem;">
+        Ellos ya<br/><span style="color:var(--accent)">caminaron.</span>
+      </h1>
+      <p style="color:var(--text-muted);margin-bottom:3rem;">Experiencias reales de nuestra comunidad.</p>
+
+      <!-- COMENTARIOS -->
+      <div class="comentarios-grid" id="comentariosGrid">
+        <div class="producto-skeleton" style="height:200px;border-radius:10px;"></div>
+        <div class="producto-skeleton" style="height:200px;border-radius:10px;"></div>
+        <div class="producto-skeleton" style="height:200px;border-radius:10px;"></div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div style="text-align:center;margin-bottom:2rem;">
+        <span class="section-label" style="display:block;">¿Ya compraste con nosotros?</span>
+        <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);margin-bottom:0.5rem;">Déjanos tu comentario</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">Tu experiencia ayuda a otros a dar el primer paso.</p>
+      </div>
+
+      <div class="form-comentario">
+        <div id="formComentario">
+          <div class="form-group">
+            <label>Tu nombre *</label>
+            <input type="text" id="cNombre" placeholder="Ej: María" required />
+          </div>
+          <div class="form-group">
+            <label>Ciudad *</label>
+            <input type="text" id="cCiudad" placeholder="Ej: Santiago" required />
+          </div>
+          <div class="form-group">
+            <label>Tu experiencia *</label>
+            <textarea id="cComentario" rows="4" placeholder="Cuéntanos cómo fue tu experiencia con CualKiera(e) CHOP..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>¿Cuántas estrellas nos das?</label>
+            <div class="estrellas-selector" id="estrellasSelector">
+              <button class="estrella-btn" onclick="setEstrellas(1)">⭐</button>
+              <button class="estrella-btn" onclick="setEstrellas(2)">⭐</button>
+              <button class="estrella-btn" onclick="setEstrellas(3)">⭐</button>
+              <button class="estrella-btn" onclick="setEstrellas(4)">⭐</button>
+              <button class="estrella-btn activa" onclick="setEstrellas(5)">⭐</button>
+            </div>
+          </div>
+          <button class="btn-primary btn-full" onclick="submitComentario()">Enviar comentario →</button>
+          <p style="font-size:0.72rem;color:var(--text-dim);text-align:center;margin-top:0.8rem;">Tu comentario será revisado antes de publicarse.</p>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✓</div>
+          <h3 style="font-family:var(--font-display);font-size:2rem;margin-bottom:0.5rem;">¡Gracias!</h3>
+          <p style="color:var(--text-muted);">Tu comentario fue enviado y será publicado pronto.</p>
+          <a href="catalogo.html" class="btn-primary" style="margin-top:1.5rem;display:inline-block;">Ver catálogo</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="../logo.png" alt="CualKiera(e) CHOP" style="height:56px;width:auto;margin:0 auto;" />
+    </div>
+    <p style="color:var(--accent);font-weight:500;margin:0.5rem 0 0.2rem">No todos caminamos igual.</p>
+    <div class="footer-social">
+      <a href="https://wa.me/56994712263" target="_blank">WhatsApp</a>
+      <a href="mailto:cualkiera.e.chop@gmail.com">Email</a>
+    </div>
+    <p class="footer-small">Santiago, Chile · Cada unidad es única.</p>
+  </footer>
+
+  <script src="../js/sheets.js"></script>
+  <script>
+    let estrellasSeleccionadas = 5;
+
+    async function initComentarios() {
+      const grid = document.getElementById('comentariosGrid');
+      const comentarios = await cargarComentarios();
+
+      if (comentarios.length === 0) {
+        grid.innerHTML = `<p style="color:var(--text-muted);grid-column:1/-1;">Sé el primero en comentar! 👟</p>`;
+        return;
+      }
+
+      grid.innerHTML = comentarios.map(c => `
+        <div class="comentario-card">
+          <div class="comentario-estrellas">${'⭐'.repeat(c.estrellas)}</div>
+          <p class="comentario-texto">"${c.comentario}"</p>
+          <div class="comentario-autor">
+            <div class="comentario-avatar">${c.nombre.charAt(0).toUpperCase()}</div>
+            <div>
+              <div class="comentario-nombre">${c.nombre}</div>
+              <div class="comentario-ciudad">📍 ${c.ciudad}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function setEstrellas(n) {
+      estrellasSeleccionadas = n;
+      document.querySelectorAll('.estrella-btn').forEach((btn, i) => {
+        btn.classList.toggle('activa', i < n);
+      });
+    }
+
+    async function submitComentario() {
+      const nombre = document.getElementById('cNombre').value.trim();
+      const ciudad = document.getElementById('cCiudad').value.trim();
+      const comentario = document.getElementById('cComentario').value.trim();
+
+      if (!nombre || !ciudad || !comentario) {
+        alert('Por favor completa todos los campos.');
+        return;
+      }
+
+      const datos = {
+        fecha: new Date().toLocaleDateString('es-CL'),
+        nombre, ciudad, comentario,
+        estrellas: estrellasSeleccionadas,
+        aprobado: 'NO',
+      };
+
+      await enviarComentario(datos);
+      document.getElementById('formComentario').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+
+    initComentarios();
+  </script>
+</body>
+</html>

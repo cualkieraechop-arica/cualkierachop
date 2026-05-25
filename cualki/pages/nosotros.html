@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiénes Somos — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="nosotros.html" class="active">Quiénes Somos</a>
+      <a href="faq.html">Preguntas</a>
+      <a href="comentarios.html">Comentarios</a>
+      <a href="catalogo.html" class="btn-nav">Ver productos</a>
+      <button class="canasta-btn" onclick="abrirCanasta()" title="Mi canasta">🛒 <span class="canasta-contador">0</span></button>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="catalogo.html" onclick="toggleMenu()">Catálogo</a>
+    <a href="nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+    <a href="faq.html" onclick="toggleMenu()">Preguntas</a>
+    <a href="comentarios.html" onclick="toggleMenu()">Comentarios</a>
+  </div>
+
+  <!-- HERO NOSOTROS -->
+  <section class="hero hero-imagen" style="background-image:url('../hero.png');min-height:60svh;">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Nuestra historia</div>
+      <h1 class="hero-title">No todos<br/>caminamos<br/><span style="color:var(--accent)">igual.</span></h1>
+      <p class="hero-sub">Y eso está bien.</p>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section style="padding:clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,5rem);border-bottom:1px solid var(--border);">
+    <div style="max-width:800px;margin:0 auto;">
+      <span class="section-label">Nuestra historia</span>
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;margin-bottom:2rem;">
+        Nació de una pregunta simple.
+      </h2>
+      <p style="color:var(--text-muted);font-size:1.05rem;line-height:1.9;margin-bottom:1.2rem;">
+        ¿Por qué alguien que usa solo una zapatilla tiene que pagar por dos?
+      </p>
+      <p style="color:var(--text-muted);font-size:1.05rem;line-height:1.9;margin-bottom:1.2rem;">
+        Vimos cómo miles de personas con amputaciones, con pies de distinto tamaño, o con necesidades diferentes, enfrentaban el mismo problema cada vez que querían calzarse. El mercado no estaba hecho para ellos.
+      </p>
+      <p style="color:var(--text);font-size:1.05rem;line-height:1.9;font-weight:500;">
+        Somos un pequeño emprendimiento que crece día a día. Y decidimos cambiar eso. 💪
+      </p>
+    </div>
+  </section>
+
+  <!-- BANNER -->
+  <section style="position:relative;overflow:hidden;max-height:400px;border-bottom:1px solid var(--border);">
+    <img src="../banner1.png" alt="CualKiera(e) CHOP" style="width:100%;object-fit:cover;" />
+
+  </section>
+
+  <!-- LO QUE HACEMOS -->
+  <section style="padding:clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,5rem);border-bottom:1px solid var(--border);background:var(--surface);">
+    <div style="max-width:1000px;margin:0 auto;">
+      <span class="section-label">Lo que hacemos</span>
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:2.5rem;line-height:1.05;">
+        Zapatillas individuales.<br/>Para ti. Como tú las necesitas.
+      </h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.8rem;">👈</div>
+          <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.5rem;">Solo izquierda</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">La que necesitas, sin pagar por la otra.</p>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.8rem;">👉</div>
+          <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.5rem;">Solo derecha</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">Del número que calzas, en el estado que buscas.</p>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.8rem;">🎨</div>
+          <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.5rem;">Combinadas</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">Arma tu propio par. Tu estilo, tus reglas.</p>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.5rem;">
+          <div style="font-size:2rem;margin-bottom:0.8rem;">💸</div>
+          <h3 style="font-size:1rem;font-weight:500;margin-bottom:0.5rem;">Precio justo</h3>
+          <p style="font-size:0.85rem;color:var(--text-muted);line-height:1.6;">Stock especial y liquidaciones a precios reales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECICLAJE -->
+  <section style="padding:clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,5rem);border-bottom:1px solid var(--border);">
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+      <span class="section-label" style="text-align:center;display:block;">Compromiso con el planeta</span>
+      <h2 style="font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1.5rem;line-height:1.05;">
+        ¡También reciclamos! 🌱
+      </h2>
+      <p style="color:var(--text-muted);font-size:1.05rem;line-height:1.9;margin-bottom:1.2rem;">
+        ¡Cada zapatilla que rescatamos es una que vuelve a vivir, a caminar, a contar una nueva historia!
+      </p>
+      <p style="color:var(--accent);font-size:1.1rem;font-weight:500;line-height:1.7;">
+        Porque darle una segunda oportunidad al calzado no es solo un acto de conciencia — ¡es un acto de revolución! 🌱👟
+      </p>
+    </div>
+  </section>
+
+  <!-- CHOP -->
+  <section style="padding:clamp(4rem,8vw,7rem) clamp(1.5rem,6vw,5rem);border-bottom:1px solid var(--border);background:var(--surface);">
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+      <span class="section-label" style="display:block;">¿Por qué CHOP?</span>
+      <h2 style="font-family:var(--font-display);font-size:clamp(3rem,7vw,6rem);color:var(--accent);line-height:1;margin-bottom:1.5rem;">CHOP.</h2>
+      <p style="color:var(--text-muted);font-size:1.05rem;line-height:1.9;margin-bottom:1rem;">
+        Cortamos con lo típico. Reinventamos la forma de vender calzado.
+      </p>
+      <p style="color:var(--text);font-size:1.2rem;font-weight:500;">
+        Porque cada paso es único. ¡Como tú! 💪
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-final">
+    <h2>¿Listo para<br/>encontrar <span style="color:var(--accent)">tu zapatilla?</span></h2>
+    <p>Stock limitado. Cuando se va, se va.</p>
+    <a href="catalogo.html" class="btn-primary">Ver catálogo completo →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="../logo.png" alt="CualKiera(e) CHOP" style="height:56px;width:auto;margin:0 auto;" />
+    </div>
+    <p style="color:var(--accent);font-weight:500;margin:0.5rem 0 0.2rem">No todos caminamos igual.</p>
+    <div class="footer-social">
+      <a href="https://wa.me/56994712263" target="_blank">WhatsApp</a>
+      <a href="mailto:cualkiera.e.chop@gmail.com">Email</a>
+    </div>
+    <p class="footer-small">Santiago, Chile · Cada unidad es única.</p>
+  </footer>
+
+  <script src="../js/sheets.js"></script>
+</body>
+</html>

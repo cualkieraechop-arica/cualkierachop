@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CualKiera(e) CHOP — La primera tienda inclusiva de zapatillas individuales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="pages/catalogo.html">Catálogo</a>
+      <a href="pages/nosotros.html">Quiénes Somos</a>
+      <a href="pages/faq.html">Preguntas</a>
+      <a href="pages/comentarios.html">Comentarios</a>
+      <a href="pages/catalogo.html" class="btn-nav">Ver productos</a>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="pages/catalogo.html" onclick="toggleMenu()">Catálogo</a>
+    <a href="pages/nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+    <a href="pages/faq.html" onclick="toggleMenu()">Preguntas</a>
+    <a href="pages/comentarios.html" onclick="toggleMenu()">Comentarios</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero hero-imagen" style="background-image: url('hero.png');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">La primera tienda inclusiva de zapatillas individuales</div>
+      <h1 class="hero-title">No todos<br/>caminamos<br/>igual.</h1>
+      <p class="hero-sub">Izquierdas. Derechas. Combinadas o sueltas.<br/>Del número que necesites. Como vos.</p>
+      <a href="pages/catalogo.html" class="btn-primary">Ver productos →</a>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN ES -->
+  <section class="para-quien">
+    <div class="para-quien-inner">
+      <span class="section-label">¿Para quién es CualKiera(e)?</span>
+      <h2>Si solo usás una zapatilla,<br/>acá la encontrás.</h2>
+      <div class="para-quien-grid">
+        <div class="para-quien-card">
+          <div class="pq-icon">🦾</div>
+          <h3>Personas con amputación</h3>
+          <p>Compra solo la zapatilla que usas. Sin pagar por la que no necesitas.</p>
+        </div>
+        <div class="para-quien-card">
+          <div class="pq-icon">👟</div>
+          <h3>Pies de distinto tamaño</h3>
+          <p>Elige una talla para cada pie. Sin compromisos, sin desperdicios.</p>
+        </div>
+        <div class="para-quien-card">
+          <div class="pq-icon">💸</div>
+          <h3>Precio justo</h3>
+          <p>Stock especial, liquidaciones y modelos únicos a precios reales.</p>
+        </div>
+        <div class="para-quien-card">
+          <div class="pq-icon">✂️</div>
+          <h3>Arma tu propio par</h3>
+          <p>Combina colores y modelos. Tu estilo, tus reglas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPTO -->
+  <section class="concepto" id="concepto">
+    <div class="concepto-grid">
+      <div class="concepto-text">
+        <span class="section-label">¿Por qué CHOP?</span>
+        <h2>Cortamos con<br/>lo típico.</h2>
+        <p>El comercio tradicional obliga a comprar dos zapatillas aunque solo uses una. Eso termina acá.</p>
+        <p>En <strong>CualKiera(e) CHOP</strong> vendemos zapatillas individuales: del pie que necesites, del número que calces, en la condición que busques.</p>
+        <p><em>"Cada paso es único. Como vos."</em></p>
+      </div>
+      <div class="concepto-pills">
+        <div class="pill">👈 Solo izquierda</div>
+        <div class="pill">👉 Solo derecha</div>
+        <div class="pill">👟 Par completo</div>
+        <div class="pill">🎨 Combinadas</div>
+        <div class="pill">✨ Nuevas</div>
+        <div class="pill">🔄 Usadas</div>
+        <div class="pill">📦 Liquidación</div>
+        <div class="pill">💪 Inclusiva</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER -->
+  <section class="banner-productos">
+    <img src="banner2.png" alt="Zapatillas individuales CualKiera(e)" />
+    <div class="banner-cta">
+      <a href="pages/catalogo.html" class="btn-primary btn-lg">Ver todos los productos →</a>
+    </div>
+  </section>
+
+  <!-- DESTACADOS -->
+  <section class="destacados">
+    <div class="section-header">
+      <div>
+        <span class="section-label">Disponibles ahora</span>
+        <h2>Últimas unidades</h2>
+      </div>
+      <a href="pages/catalogo.html" class="link-ver-mas">Ver todo →</a>
+    </div>
+    <div class="productos-grid" id="productosDestacados">
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+      <div class="producto-skeleton"></div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2>Cada paso es único.<br/><span style="color:var(--accent)">Como vos.</span></h2>
+    <p>Stock limitado. Cuando se va, se va.</p>
+    <a href="pages/catalogo.html" class="btn-primary">Explorar catálogo completo</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="logo.png" alt="CualKiera(e) CHOP" style="height:56px;width:auto;margin:0 auto;" />
+    </div>
+    <p style="color:var(--accent);font-weight:500;margin:0.5rem 0 0.2rem">No todos caminamos igual.</p>
+    <p>La primera tienda inclusiva de zapatillas individuales · Santiago, Chile</p>
+    <p class="footer-small">Cada unidad es única. Sin reposición garantizada.</p>
+  </footer>
+
+  <script src="js/sheets.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
