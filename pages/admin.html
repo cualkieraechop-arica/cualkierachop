@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    body { background: #080808; }
+    .admin-wrap { max-width: 720px; margin: 0 auto; padding: calc(var(--nav-h) + 2rem) 1.5rem 4rem; }
+    .admin-title { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 0.3rem; }
+    .admin-sub { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 2rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group-full { grid-column: 1 / -1; }
+    .radio-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.3rem; }
+    .radio-btn {
+      background: var(--surface); border: 1.5px solid var(--border);
+      color: var(--text-muted); border-radius: 100px;
+      padding: 0.4rem 1rem; font-size: 0.82rem; cursor: pointer;
+      transition: all 0.15s; font-family: var(--font-body);
+    }
+    .radio-btn.activo { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+    /* URL + PREVIEW */
+    .url-preview-wrap { display: flex; gap: 0.8rem; align-items: flex-start; }
+    .url-preview-wrap input { flex: 1; }
+    .img-preview {
+      width: 64px; height: 64px; border-radius: var(--radius);
+      background: var(--surface2); border: 1px solid var(--border);
+      object-fit: cover; flex-shrink: 0; display: none;
+    }
+    .img-preview.visible { display: block; }
+
+    /* FOTOS SECUNDARIAS */
+    .fotos-secundarias { display: flex; flex-direction: column; gap: 0.6rem; }
+    .foto-secundaria-row { display: flex; gap: 0.6rem; align-items: center; }
+    .foto-secundaria-row input { flex: 1; }
+    .btn-quitar-foto {
+      background: none; border: 1px solid var(--border); color: var(--text-dim);
+      width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+      font-size: 0.85rem; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.15s;
+    }
+    .btn-quitar-foto:hover { border-color: #ff4747; color: #ff4747; }
+    .btn-agregar-foto {
+      background: none; border: 1.5px dashed var(--border); color: var(--accent);
+      border-radius: var(--radius); padding: 0.6rem 1rem; cursor: pointer;
+      font-size: 0.82rem; font-family: var(--font-body); width: 100%;
+      transition: all 0.15s; margin-top: 0.3rem;
+    }
+    .btn-agregar-foto:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+    /* SECCIONES */
+    .admin-seccion {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem;
+    }
+    .admin-seccion-titulo {
+      font-family: var(--font-display); font-size: 1.1rem;
+      letter-spacing: 0.05em; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    /* LOGIN */
+    .login-wrap {
+      max-width: 360px; margin: 20vh auto; padding: 2rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); text-align: center;
+    }
+    .login-wrap h2 { font-family: var(--font-display); font-size: 2rem; margin-bottom: 0.5rem; }
+
+    /* SUCCESS */
+    .admin-success {
+      display: none; text-align: center; padding: 2.5rem;
+      background: var(--surface); border: 1px solid var(--accent);
+      border-radius: var(--radius-lg); margin-top: 1rem;
+    }
+
+    @media(max-width:600px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html">Ver tienda →</a>
+    </div>
+  </nav>
+
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-wrap">
+      <div style="font-size:2.5rem;margin-bottom:1rem;">🔐</div>
+      <h2>Panel Admin</h2>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:1.5rem;">Solo para administradores</p>
+      <div class="form-group">
+        <input type="password" id="passInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')verificarPass()" />
+      </div>
+      <button class="btn-primary btn-full" onclick="verificarPass()">Entrar →</button>
+      <p id="passError" style="color:#ff4747;font-size:0.8rem;margin-top:0.8rem;display:none;">Contraseña incorrecta</p>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminPanel" style="display:none;">
+    <div class="admin-wrap">
+      <span class="section-label">Panel de administración</span>
+      <h1 class="admin-title">Cargar producto</h1>
+      <p class="admin-sub">Completa todos los datos. El producto se agrega al Sheet automáticamente.</p>
+
+      <!-- SECCIÓN 1: DATOS BÁSICOS -->
+      <div class="admin-seccion">
+        <div class="admin-seccion-titulo">📋 Datos del producto</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Marca *</label>
+            <input type="text" id="pMarca" placeholder="Ej: Nike" />
+          </div>
+          <div class="form-group">
+            <label>Modelo *</label>
+            <input type="text" id="pModelo" placeholder="Ej: Air Force 1" />
+          </div>
+          <div class="form-group">
+            <label>Talla *</label>
+            <input type="text" id="pTalla" placeholder="Ej: 42 o 38.5" />
+          </div>
+          <div class="form-group">
+            <label>Largo (cm)</label>
+            <input type="text" id="pCm" placeholder="Ej: 26.5" />
+          </div>
+          <div class="form-group">
+            <label>Color</label>
+            <input type="text" id="pColor" placeholder="Ej: Blanco/Negro" />
+          </div>
+          <div class="form-group">
+            <label>Precio *</label>
+            <input type="number" id="pPrecio" placeholder="Ej: 15990" />
+          </div>
+          <div class="form-group form-group-full">
+            <label>Pie *</label>
+            <div class="radio-group" id="grupoPie">
+              <button class="radio-btn" onclick="setPie('IZQUIERDA',this)">👈 Izquierda</button>
+              <button class="radio-btn" onclick="setPie('DERECHA',this)">👉 Derecha</button>
+              <button class="radio-btn" onclick="setPie('PAR',this)">👟 Par</button>
+            </div>
+            <input type="hidden" id="pPie" />
+          </div>
+          <div class="form-group form-group-full">
+            <label>Estado *</label>
+            <div class="radio-group" id="grupoEstado">
+              <button class="radio-btn" onclick="setEstado('Nueva',this)">✨ Nueva</button>
+              <button class="radio-btn" onclick="setEstado('Usada',this)">🔄 Usada</button>
+            </div>
+            <input type="hidden" id="pEstado" />
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: DESCRIPCIÓN -->
+      <div class="admin-seccion">
+        <div class="admin-seccion-titulo">📝 Descripción y características</div>
+        <div class="form-group">
+          <label>Descripción del producto</label>
+          <textarea id="pDesc" rows="3" placeholder="Describe el producto: características, estado real, detalles importantes que el cliente deba saber..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Características técnicas</label>
+          <textarea id="pCaract" rows="2" placeholder="Ej: Suela de goma, interior acolchado, sin detalles visibles..."></textarea>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: FOTO PRINCIPAL -->
+      <div class="admin-seccion">
+        <div class="admin-seccion-titulo">📸 Foto principal <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-body);font-weight:normal;">(va a hoja productos)</span></div>
+        <div class="form-group">
+          <label>URL foto principal *</label>
+          <div class="url-preview-wrap">
+            <input type="text" id="pImagen" placeholder="https://drive.google.com/thumbnail?id=...&sz=w1000" oninput="previewImg('pImagen','prevPrincipal')" />
+            <img id="prevPrincipal" class="img-preview" alt="Preview" />
+          </div>
+          <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.4rem;">
+            💡 En Drive: clic derecho → Compartir → Copiar link → convertir a formato thumbnail
+          </p>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4: FOTOS SECUNDARIAS -->
+      <div class="admin-seccion">
+        <div class="admin-seccion-titulo">🖼️ Fotos secundarias <span style="font-size:0.7rem;color:var(--text-muted);font-family:var(--font-body);font-weight:normal;">(van a hoja imagenes)</span></div>
+        <div class="fotos-secundarias" id="fotosSecundarias">
+          <div class="foto-secundaria-row">
+            <div style="flex:1;">
+              <input type="text" placeholder="URL foto 2" oninput="previewImgRow(this)" style="width:100%;" />
+              <img class="img-preview" style="margin-top:4px;" alt="Preview" />
+            </div>
+          </div>
+          <div class="foto-secundaria-row">
+            <div style="flex:1;">
+              <input type="text" placeholder="URL foto 3" oninput="previewImgRow(this)" style="width:100%;" />
+              <img class="img-preview" style="margin-top:4px;" alt="Preview" />
+            </div>
+            <button class="btn-quitar-foto" onclick="quitarFotoSecundaria(this)" title="Quitar">✕</button>
+          </div>
+        </div>
+        <button class="btn-agregar-foto" onclick="agregarFotoSecundaria()">+ Agregar otra foto</button>
+        <p style="font-size:0.72rem;color:var(--text-dim);margin-top:0.5rem;">Puedes agregar todas las fotos que necesites.</p>
+      </div>
+
+      <!-- BOTÓN GUARDAR -->
+      <button class="btn-primary btn-full" id="btnGuardar" onclick="guardarProducto()" style="font-size:1rem;padding:1rem;margin-bottom:1rem;">
+        💾 Guardar producto →
+      </button>
+
+      <!-- SUCCESS -->
+      <div class="admin-success" id="adminSuccess">
+        <div style="font-size:3rem;margin-bottom:1rem;">✅</div>
+        <h3 style="font-family:var(--font-display);font-size:2rem;margin-bottom:0.5rem;">¡Producto guardado!</h3>
+        <p style="color:var(--text-muted);margin-bottom:1.5rem;">Aparece en la tienda en segundos.</p>
+        <button class="btn-primary" onclick="resetForm()">Cargar otro producto</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/sheets.js"></script>
+  <script>
+    const PASS = 'chop2026';
+    let fotoCount = 3;
+
+    function verificarPass() {
+      if (document.getElementById('passInput').value === PASS) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+      } else {
+        document.getElementById('passError').style.display = 'block';
+        document.getElementById('passInput').value = '';
+      }
+    }
+
+    function setPie(val, btn) {
+      document.getElementById('grupoPie').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      document.getElementById('pPie').value = val;
+    }
+
+    function setEstado(val, btn) {
+      document.getElementById('grupoEstado').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('activo'));
+      btn.classList.add('activo');
+      document.getElementById('pEstado').value = val;
+    }
+
+    function previewImg(inputId, imgId) {
+      const url = document.getElementById(inputId).value.trim();
+      const img = document.getElementById(imgId);
+      if (url.startsWith('http')) {
+        img.src = url;
+        img.classList.add('visible');
+        img.onerror = () => img.classList.remove('visible');
+      } else {
+        img.classList.remove('visible');
+      }
+    }
+
+    function previewImgRow(input) {
+      const url = input.value.trim();
+      const img = input.parentElement.querySelector('.img-preview');
+      if (url.startsWith('http')) {
+        img.src = url;
+        img.classList.add('visible');
+        img.onerror = () => img.classList.remove('visible');
+      } else {
+        img.classList.remove('visible');
+      }
+    }
+
+    function agregarFotoSecundaria() {
+      fotoCount++;
+      const container = document.getElementById('fotosSecundarias');
+      const div = document.createElement('div');
+      div.className = 'foto-secundaria-row';
+      div.innerHTML = `
+        <div style="flex:1;">
+          <input type="text" placeholder="URL foto ${fotoCount}" oninput="previewImgRow(this)" style="width:100%;" />
+          <img class="img-preview" style="margin-top:4px;" alt="Preview" />
+        </div>
+        <button class="btn-quitar-foto" onclick="quitarFotoSecundaria(this)" title="Quitar">✕</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function quitarFotoSecundaria(btn) {
+      btn.parentElement.remove();
+    }
+
+    function getFotosSecundarias() {
+      const inputs = document.getElementById('fotosSecundarias').querySelectorAll('input[type=text]');
+      return [...inputs].map(i => i.value.trim()).filter(u => u.startsWith('http'));
+    }
+
+    async function guardarProducto() {
+      const marca   = document.getElementById('pMarca').value.trim();
+      const modelo  = document.getElementById('pModelo').value.trim();
+      const talla   = document.getElementById('pTalla').value.trim();
+      const cm      = document.getElementById('pCm').value.trim();
+      const color   = document.getElementById('pColor').value.trim();
+      const precio  = document.getElementById('pPrecio').value.trim();
+      const pie     = document.getElementById('pPie').value;
+      const estado  = document.getElementById('pEstado').value;
+      const desc    = document.getElementById('pDesc').value.trim();
+      const caract  = document.getElementById('pCaract').value.trim();
+      const imagen  = document.getElementById('pImagen').value.trim();
+      const fotosExtra = getFotosSecundarias();
+
+      if (!marca || !modelo || !talla || !pie || !estado || !precio || !imagen) {
+        alert('Por favor completa todos los campos obligatorios (*) incluyendo la foto principal.');
+        return;
+      }
+
+      const btn = document.getElementById('btnGuardar');
+      btn.textContent = 'Guardando...';
+      btn.disabled = true;
+
+      const descripcionCompleta = [desc, caract, color ? `Color: ${color}` : ''].filter(Boolean).join('\n');
+
+      const datos = {
+        accion: 'nuevo_producto',
+        marca, modelo, talla, cm, color, pie, estado, precio,
+        imagen, descripcion: descripcionCompleta,
+        fotos_extra: fotosExtra,
+        fecha: new Date().toLocaleDateString('es-CL'),
+      };
+
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos),
+        });
+        document.getElementById('adminSuccess').style.display = 'block';
+        document.getElementById('adminSuccess').scrollIntoView({ behavior: 'smooth' });
+      } catch (err) {
+        alert('Error al guardar. Revisa tu conexión.');
+      }
+
+      btn.textContent = '💾 Guardar producto →';
+      btn.disabled = false;
+    }
+
+    function resetForm() {
+      document.getElementById('adminSuccess').style.display = 'none';
+      document.querySelectorAll('input[type=text], input[type=number], textarea').forEach(el => el.value = '');
+      document.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('activo'));
+      document.querySelectorAll('.img-preview').forEach(img => img.classList.remove('visible'));
+      // Reset fotos secundarias
+      const fs = document.getElementById('fotosSecundarias');
+      fs.innerHTML = `
+        <div class="foto-secundaria-row">
+          <div style="flex:1;">
+            <input type="text" placeholder="URL foto 2" oninput="previewImgRow(this)" style="width:100%;" />
+            <img class="img-preview" style="margin-top:4px;" alt="Preview" />
+          </div>
+        </div>
+        <div class="foto-secundaria-row">
+          <div style="flex:1;">
+            <input type="text" placeholder="URL foto 3" oninput="previewImgRow(this)" style="width:100%;" />
+            <img class="img-preview" style="margin-top:4px;" alt="Preview" />
+          </div>
+          <button class="btn-quitar-foto" onclick="quitarFotoSecundaria(this)" title="Quitar">✕</button>
+        </div>`;
+      fotoCount = 3;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

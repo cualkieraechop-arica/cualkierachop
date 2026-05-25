@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preguntas Frecuentes — CualKiera(e) CHOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .faq-wrap { max-width: 800px; margin: 0 auto; padding: clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,3rem); }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-pregunta {
+      width: 100%; background: none; border: none; color: var(--text);
+      font-family: var(--font-body); font-size: 1rem; font-weight: 500;
+      text-align: left; padding: 1.4rem 0; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem; transition: color 0.2s;
+    }
+    .faq-pregunta:hover { color: var(--accent); }
+    .faq-icono { font-size: 1.2rem; color: var(--accent); flex-shrink: 0; transition: transform 0.2s; }
+    .faq-respuesta {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-respuesta.open { max-height: 300px; padding-bottom: 1.2rem; }
+    .faq-respuesta p { color: var(--text-muted); line-height: 1.8; font-size: 0.95rem; }
+    .faq-respuesta strong { color: var(--accent); }
+    .faq-icono.open { transform: rotate(45deg); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">
+      <img src="../logo-header.jpg" alt="CualKiera(e) CHOP" class="nav-logo-img" />
+    </a>
+    <div class="nav-links">
+      <a href="catalogo.html">Catálogo</a>
+      <a href="nosotros.html">Quiénes Somos</a>
+      <a href="faq.html" class="active">Preguntas</a>
+      <a href="comentarios.html">Comentarios</a>
+      <a href="catalogo.html" class="btn-nav">Ver productos</a>
+      <button class="canasta-btn" onclick="abrirCanasta()" title="Mi canasta">🛒 <span class="canasta-contador">0</span></button>
+    </div>
+    <button class="nav-burger" onclick="toggleMenu()">☰</button>
+  </nav>
+  <div class="nav-mobile" id="navMobile">
+    <a href="catalogo.html" onclick="toggleMenu()">Catálogo</a>
+    <a href="nosotros.html" onclick="toggleMenu()">Quiénes Somos</a>
+    <a href="faq.html" onclick="toggleMenu()">Preguntas</a>
+    <a href="comentarios.html" onclick="toggleMenu()">Comentarios</a>
+  </div>
+
+  <div style="padding-top:var(--nav-h);">
+
+    <div class="faq-wrap">
+      <span class="section-label">Todo lo que necesitas saber</span>
+      <h1 style="font-family:var(--font-display);font-size:clamp(2.5rem,6vw,5rem);line-height:1;margin-bottom:0.5rem;">
+        Preguntas<br/>frecuentes.
+      </h1>
+      <p style="color:var(--text-muted);margin-bottom:3rem;font-size:1rem;">¿Tienes dudas? Acá están las respuestas.</p>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿De verdad venden una sola zapatilla?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>¡Sí! Vendemos zapatillas <strong>individuales</strong> — solo la izquierda, solo la derecha, o combinadas como tú quieras. Pagas solo lo que necesitas, nada más.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿La foto es la zapatilla real que voy a recibir?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí, <strong>siempre</strong>. La imagen que ves es exactamente la zapatilla que vas a comprar. Si tiene algún detalle, lo informamos en la descripción del producto. Sin sorpresas.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Cómo sé si la talla me queda?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Cada producto muestra la talla en número y el largo en centímetros. Mide tu pie con una regla de talón a punta y compara con la medida indicada. ¿Dudas? Escríbenos por WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Cómo son las zapatillas usadas?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Son zapatillas <strong>americanas seminuevas</strong>, en muy buen estado y sin detalles. Si alguna tiene alguna marca o detalle, lo indicamos claramente en el producto para que decidas con toda la información.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Puedo armar un par del mismo pie?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>¡Por supuesto! Puedes comprar dos zapatillas del mismo pie, de distinto pie, de distintos modelos o colores. <strong>Tú decides cómo armar tu par.</strong> Sin reglas, sin moldes.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Cómo pago?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Por <strong>transferencia bancaria</strong> o <strong>Mercado Pago</strong>. Te enviamos los datos al confirmar tu pedido por WhatsApp.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Hacen envíos a todo Chile?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Sí, despachamos a todo Chile por <strong>Blue Express</strong>. El envío va <strong>por pagar</strong> — lo cancelas al recibir tu pedido en el punto de retiro más cercano.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Puedo pedir más fotos del producto?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>¡Claro! Escríbenos por WhatsApp y te mandamos todas las fotos que necesites antes de decidir.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Cómo sé si el producto está disponible?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Si está en el catálogo, <strong>está disponible</strong>. Cuando se vende lo retiramos de inmediato. Al ser unidades únicas, no hay reposición garantizada — si te gusta, no lo dejes pasar.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pregunta" onclick="toggleFaq(this)">
+          ¿Hacen devoluciones?
+          <span class="faq-icono">+</span>
+        </button>
+        <div class="faq-respuesta">
+          <p>Al ser productos únicos e individuales no hacemos devoluciones. Pero si hay algún problema con lo que recibiste, <strong>contáctanos y lo resolvemos</strong>. Tu satisfacción es lo primero.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CTA -->
+    <section class="cta-final" style="margin-top:0;">
+      <h2>¿Encontraste<br/>tu <span style="color:var(--accent)">zapatilla?</span></h2>
+      <p>Stock limitado. Cuando se va, se va.</p>
+      <a href="catalogo.html" class="btn-primary">Ver catálogo →</a>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="../logo.png" alt="CualKiera(e) CHOP" style="height:56px;width:auto;margin:0 auto;" />
+    </div>
+    <p style="color:var(--accent);font-weight:500;margin:0.5rem 0 0.2rem">No todos caminamos igual.</p>
+    <div class="footer-social">
+      <a href="https://wa.me/56994712263" target="_blank">WhatsApp</a>
+      <a href="mailto:cualkiera.e.chop@gmail.com">Email</a>
+    </div>
+    <p class="footer-small">Santiago, Chile · Cada unidad es única.</p>
+  </footer>
+
+  <script src="../js/sheets.js"></script>
+  <script>
+    function toggleFaq(btn) {
+      const respuesta = btn.nextElementSibling;
+      const icono = btn.querySelector('.faq-icono');
+      const isOpen = respuesta.classList.contains('open');
+      document.querySelectorAll('.faq-respuesta').forEach(r => r.classList.remove('open'));
+      document.querySelectorAll('.faq-icono').forEach(i => i.classList.remove('open'));
+      if (!isOpen) {
+        respuesta.classList.add('open');
+        icono.classList.add('open');
+      }
+    }
+  </script>
+</body>
+</html>
