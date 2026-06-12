@@ -392,7 +392,7 @@ input, select, textarea { font-family: var(--font-body); }
 .nav-logo-img {
   height: 64px;
   width: auto;
-  max-width: min(80vw, 600px);
+  max-width: min(90vw, 700px);
   object-fit: contain;
   display: block;
   margin: 0 auto;
