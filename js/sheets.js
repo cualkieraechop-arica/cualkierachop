@@ -200,3 +200,54 @@ async function enviarComentario(datos) {
     return false;
   }
 }
+
+/**
+ * Carga textos configurables desde hoja "config_textos"
+ */
+async function cargarConfigTextos() {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=config_textos`;
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const jsonStr = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)?.[1];
+    if (!jsonStr) return {};
+    
+    const json = JSON.parse(jsonStr);
+    const rows = json.table.rows;
+    const cols = json.table.cols;
+    
+    const colMap = {};
+    cols.forEach((c, i) => { colMap[c.label.trim().toUpperCase()] = i; });
+
+    const config = {};
+    rows.forEach(row => {
+      if (!row.c) return;
+      const seccion = String(row.c[colMap['SECCION']]?.v ?? '').trim();
+      const texto = String(row.c[colMap['TEXTO']]?.v ?? '').trim();
+      if (seccion) config[seccion] = texto;
+    });
+    
+    return config;
+  } catch (err) {
+    console.warn('Error cargando config_textos:', err);
+    return {};
+  }
+}
+
+/**
+ * Aplica textos del Sheet a elementos HTML
+ */
+async function aplicarTextos() {
+  const config = await cargarConfigTextos();
+  
+  const heroTitle = document.getElementById('heroTitle');
+  if (heroTitle && config.HERO_TITULO) heroTitle.textContent = config.HERO_TITULO;
+  
+  const faqTitle = document.getElementById('faqTitle');
+  if (faqTitle && config.FAQ_TITULO) faqTitle.textContent = config.FAQ_TITULO;
+  
+  const quienesIntro = document.getElementById('quienesIntro');
+  if (quienesIntro && config.QUIENES_SOMOS_INTRO) quienesIntro.textContent = config.QUIENES_SOMOS_INTRO;
+}
+
+document.addEventListener('DOMContentLoaded', aplicarTextos);
