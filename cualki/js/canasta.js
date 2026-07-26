@@ -174,8 +174,5 @@ function mostrarToast(msg) {
 // Init
 document.addEventListener('DOMContentLoaded', actualizarContador);
 
-function irACheckout() {
-  if (canasta.length === 0) return;
-  sessionStorage.setItem('canasta', JSON.stringify(canasta));
-  window.location.href = 'checkout.html';
-}
+// ELIMINADO: Mercado Pago
+// ELIMINADO

@@ -35,18 +35,19 @@ input, select, textarea { font-family: var(--font-body); }
   background: rgba(13,13,13,0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: center;
   padding: 0 1rem;
   z-index: 1000;
   gap: 0.5rem;
 }
-.nav-logo img { height: 48px; width: auto; display: block; }
-.nav-links { display: flex; align-items: center; gap: 2rem; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.nav-logo { display: flex; align-items: center; justify-content: center; }
+.nav-logo img { height: 64px; width: auto; max-width: min(90vw, 700px); display: block; margin: 0 auto; }
+.nav-links { display: none; }
 .nav-links a { color: var(--text-muted); transition: color var(--transition); }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 .btn-nav { background: var(--accent); color: var(--bg); padding: 0.4rem 1.1rem; border-radius: var(--radius); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; transition: opacity var(--transition); }
 .btn-nav:hover { opacity: 0.85; }
-.nav-burger { display: none; background: none; color: var(--text); font-size: 1.4rem; padding: 0.2rem; }
+.nav-burger { display: flex; background: none; color: var(--text); font-size: 1.4rem; padding: 0.2rem; position: absolute; right: 1rem; }
 .nav-mobile { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--surface); border-bottom: 2px solid var(--accent); flex-direction: column; padding: 1rem clamp(1rem,4vw,3rem); gap: 1rem; z-index: 999; }
 .nav-mobile.open { display: flex; }
 .nav-mobile a { font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
@@ -390,9 +391,9 @@ input, select, textarea { font-family: var(--font-body); }
 
 /* ===== LOGO HEADER ===== */
 .nav-logo-img {
-  height: 64px;
+  height: 80px;
   width: auto;
-  max-width: min(80vw, 600px);
+  max-width: min(85vw, 750px);
   object-fit: contain;
   display: block;
   margin: 0 auto;
@@ -480,5 +481,5 @@ input, select, textarea { font-family: var(--font-body); }
 }
 
 @media (max-width: 480px) {
-  .nav-logo-img { height: 52px; max-width: 70vw; }
+  .nav-logo-img { height: 60px; max-width: 85vw; }
 }
